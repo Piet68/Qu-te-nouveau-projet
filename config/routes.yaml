@@ -5,3 +5,11 @@
 #app_lucky_number:
  # path: /lucky/number
   #controller: App\Controller\LuckyController::number
+
+#app_blog_list:
+# path: /blog/list
+#controller: App\Controller\BlogController::list
+
+#app_blog_show:
+# path: /blog/show
+#controller: App\Controller\BlogController::show()
