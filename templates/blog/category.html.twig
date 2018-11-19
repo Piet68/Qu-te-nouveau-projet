@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des catégories{% endblock %}
+
+{% block body %}
+    <div class="col-6">
+        <h2>Les trois premiers articles de {{ categorie.name }}</h2>
+        <ul style="list-style-type:circle">
+            {%  for article in articles %}
+                <h3>{{ article.title }}</h3>
+                <p>{{ article.content }}</p><br>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
