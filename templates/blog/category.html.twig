@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="col-6">
-        <h2>Les trois premiers articles de {{ categorie.name }}</h2>
+        <h2>Les trois premiers articles de {{ categorie }}</h2>
         <ul style="list-style-type:circle">
             {%  for article in articles %}
                 <h3>{{ article.title }}</h3>

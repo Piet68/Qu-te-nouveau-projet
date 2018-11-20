@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
+use App\Repository\ArticleRepository;
+use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Article;
 use App\Entity\Category;
-use APP\Repository\ArticleRepository;
-use App\Repository\CategoryRepository;
 
 
 class BlogController extends AbstractController
@@ -90,23 +90,41 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/category/{name}", name="blog_show_category")
+
+     * @Route("blog/category/{category}", name="blog_show_category")
+     * @param string $category
+     * @return
      */
 
-    public function showByCategory(Category $category)
+    public function showByCategory(string $category)
     {
-        if (!$category) {
-            throw $this
-                ->createNotFoundException('No slug has been sent to find an article in article\'s table.');
-        }
+        $categoryId = $this->getDoctrine()
+            ->getRepository(Category::class)
+            ->findOneByName($category)->getId();
+
         $articles = $this->getDoctrine()
             ->getRepository(Article::class)
             ->findBy(
-                array('category' => $category), array('id' => 'desc'), 3);
+                array('category' => $categoryId),
+                array('id' => 'desc'),
+                3
+            );
 
-        $categorie = $this->getDoctrine()
+        return $this->render('blog/category.html.twig', ['articles' => $articles, 'categorie' => $category]);
+    }
+
+    /**
+     * @param string $category
+     * @return Response
+     * @Route("blog/category/{category}/all", name="blog_show_category_all")
+     */
+    public function showAllByCategory(string $category)
+    {
+
+        $articles = $this->getDoctrine()
             ->getRepository(Category::class)
-            ->find($category);
+            ->findOneByName($category)->getArticles();
+
 
         return $this->render('blog/category.html.twig', ['articles' => $articles, 'categorie' => $category]);
     }
