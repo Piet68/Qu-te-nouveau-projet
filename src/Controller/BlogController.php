@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Form\ArticleSearchType;
 use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Article;
@@ -32,9 +34,13 @@ class BlogController extends AbstractController
             );
         }
 
+        $form = $this->createForm(ArticleSearchType::class, null,
+                    ['method' => Request::METHOD_GET]);
+
         return $this->render(
             'blog/index.html.twig',
-            ['articles' => $articles]
+            ['articles' => $articles,
+              'form' => $form->createView()]
         );
     }
 
@@ -72,11 +78,11 @@ class BlogController extends AbstractController
             ->getRepository(Article::class)
             ->findOneBy(['title' => mb_strtolower($slug)]);
 
-        if (!$article){
-            throw $this->createNotFoundException(
-                'No article with'.$slug.'title, found in article\'s table.'
-            );
-        }
+        //if (!$article){
+            //throw $this->createNotFoundException(
+                //'No article with'.$slug.'title, found in article\'s table.'
+            //);
+        //}
 
         // $slug will equal the dynamic part of the URL
         // e.g. at /blog/yay-routing, then $slug='yay-routing'
