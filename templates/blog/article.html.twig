@@ -4,10 +4,8 @@
 
 {% block body %}
     <div class="col-6">
-        <h2>Les trois premiers articles de {{ article.title }} </h2>
-        <ul style="list-style-type:circle">
-            <li>{{ article.id }}</li>
-            <li>{{ article.content }}</li>
-        </ul>
+        <h2>L'article en question {{ article.title }} </h2>
+            <p>{{ article.content }}</p>
+        <p>La catégorie de cet article est : {{ article.category.name }}</p>
     </div>
 {% endblock %}

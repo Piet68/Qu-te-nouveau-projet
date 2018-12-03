@@ -5,29 +5,32 @@
 {% block stylesheets %}{% endblock %}
 
 {% block body %}
-    <h1>All articles from article s table : </h1>
 
+    <div class="container border p-3">
+        <h1>Rechercher un article</h1>
     {{ form_start(form) }}
         {{ form_row(form.searchField) }}
-    <button type="submit" name="btnSearch">Rechercher</button>
+
+    <button type="submit" class="btn btn-success" name="btnSearch">Rechercher</button>
     {{ form_end(form) }}
+    </div>
 
-    {% for article in articles %}
-        <div>
-            <h2>{{ loop.index }} / {{ article.title }} - Category : {{ article.category.name }}</h2>
-            <p>{{ article.content }}</p>
-        </div>
-    {% endfor %}
-    {#<a href="{{ path('homepage') }}">
-        Back to homepage.
-    </a>
+    <div class="container mt-4 border p-4">
+        <h1> Ajouter un article</h1>
+        {{ form_start(formAdd) }}
+        {{ form_widget(formAdd) }}
+        <button type="submit" class="btn btn-info" name="btnSearch">Ajouter</button>
+        {{ form_end(formAdd) }}
+    </div>
 
-    <a href="{{ path('blog_show', { 'slug': "javascript-vs-php" }) }}">
-        Testing show() method from BlogController with a real article s slug.
-    </a>
-    <br>
-    <a href="{{ path('blog_index') }}">
-        Testing index() method from BlogController to view all articles.
-    </a>#}
+    <div class="container mt-4">
+        <h1>All articles from article s table : </h1>
+        {% for article in articles %}
+            <div>
+                <h2>{{ loop.index }} / {{ article.title }} - Category : {{ article.category.name }}</h2>
+                <p>{{ article.content }}</p>
+            </div>
+        {% endfor %}
+    </div>
 
 {% endblock %}

@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use Doctrine\ORM\Mapping\Entity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,14 +13,13 @@ class ArticleSearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('searchField')
-        ;
+            ->add('searchField');
     }
 
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
+    //public function configureOptions(OptionsResolver $resolver)
+    //{
+        //$resolver->setDefaults([
             // Configure your form options here
-        ]);
-    }
+        //]);
+    //}
 }

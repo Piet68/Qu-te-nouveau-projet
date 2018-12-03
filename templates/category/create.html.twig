@@ -1,12 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Categorie{% endblock %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}Categorie au choix{% endblock %}
 
 {% block body %}
+
+    <div class="container">
     <p> Créer une category </p>
     {{ form_start(form) }}
     {{ form_row(form.name) }}
     <button class="btn">{{ button_label|default('Créer') }}</button>
     {{ form_end(form) }}
 
+    </div>
 {% endblock %}
