@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Article;
+use App\Entity\Category;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker;
@@ -24,7 +25,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
             $article->setContent($faker->paragraph($nbSentences = 3, $variableNbSentences = true));
 
             $manager->persist($article);
-            $article->setCategory($this->getReference('categorie_0'));
+            $article->setCategory($this->getReference('categorie_'.rand(0,4)));
         }
 
         $manager->flush();

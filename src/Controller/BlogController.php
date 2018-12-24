@@ -6,6 +6,7 @@ use App\Form\ArticleSearchType;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
+use App\Service\Slugify;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,11 +26,12 @@ class BlogController extends AbstractController
      * @return Response A response instance
      */
 
-    public function index(Request $request, ObjectManager $manager) : Response
+    public function index(Request $request, ObjectManager $manager, Slugify $slugify) : Response
     {
         $articles = $this->getDoctrine()
             ->getRepository(Article::class)
             ->findAll();
+
         if (!$articles){
             throw $this->createNotFoundException(
                 'No article found in article\'s table.'
@@ -41,6 +43,7 @@ class BlogController extends AbstractController
 
         if ($form->isSubmitted()) {
             $data = $form->getData();
+
             $article = $this->getDoctrine()
                 ->getRepository(Article::class)
                 ->findBy(
@@ -54,7 +57,10 @@ class BlogController extends AbstractController
         $articleNew = new Article();
         $formAdd = $this->createForm(ArticleType::class, $articleNew);
         $formAdd->handleRequest($request);
+
         if ($formAdd->isSubmitted()) {
+
+            $articleNew->setSlug($slugify->generate($articleNew->getTitle()));
 
             $manager->persist($articleNew);
             $manager->flush();
@@ -104,11 +110,11 @@ class BlogController extends AbstractController
             ->getRepository(Article::class)
             ->findOneBy(['title' => mb_strtolower($slug)]);
 
-        //if (!$article){
-            //throw $this->createNotFoundException(
-                //'No article with'.$slug.'title, found in article\'s table.'
-            //);
-        //}
+        if (!$article){
+            throw $this->createNotFoundException(
+                'No article with'.$slug.'title, found in article\'s table.'
+            );
+        }
 
         // $slug will equal the dynamic part of the URL
         // e.g. at /blog/yay-routing, then $slug='yay-routing'

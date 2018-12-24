@@ -24,7 +24,7 @@
     </div>
 
     <div class="container mt-4">
-        <h1>All articles from article s table : </h1>
+        <h1>All articles from articles table : </h1>
         {% for article in articles %}
             <div>
                 <h2>{{ loop.index }} / {{ article.title }} - Category : {{ article.category.name }}</h2>

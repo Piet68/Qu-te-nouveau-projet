@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -33,47 +36,93 @@ class Article
     private $category;
 
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    private $slug;
 
-    public function getContent(): ?string
-    {
-        return $this->content;
+    /**
+     * Permet d'initialiser le slug !
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     * @return void
+     */
+
+    public function initializesSlug(){
+        if(empty($this->slug)){
+            $slugify = new Slugify();
+            $this->slug = $slugify->slugify($this->title);
+        }
     }
 
-    public function setContent(string $content): self
+
+    public function __construct()
     {
-        $this->content = $content;
-
-        return $this;
+        $this->tags = new ArrayCollection();
     }
-
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?Category $category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
     public function getId(): ?int
     {
         return $this->id;
     }
-
     public function getTitle(): ?string
     {
         return $this->title;
     }
-
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
         return $this;
     }
-
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+        return $this;
+    }
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+        return $this;
+    }
+    /**
+     * @return Collection|Tag[]
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+            $tag->addArticle($this);
+        }
+        return $this;
+    }
+    public function removeTag(Tag $tag): self
+    {
+        if ($this->tags->contains($tag)) {
+            $this->tags->removeElement($tag);
+            $tag->removeArticle($this);
+        }
+        return $this;
+    }
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+        return $this;
+    }
 
 }

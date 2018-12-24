@@ -19,6 +19,15 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
+    public function rechercheContenu($value)
+    {
+        return $this->createQueryBuilder('t0')
+            ->where("t0.content LIKE '%:val%'")
+            ->setParameter('val', $value)
+            ->getQuery()
+            ;
+    }
+
 //    /**
 //     * @return Article[] Returns an array of Article objects
 //     */
@@ -36,7 +45,7 @@ class ArticleRepository extends ServiceEntityRepository
     }
     */
 
-    /*
+
     public function findOneBySomeField($value): ?Article
     {
         return $this->createQueryBuilder('a')
@@ -46,5 +55,5 @@ class ArticleRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-    */
+
 }

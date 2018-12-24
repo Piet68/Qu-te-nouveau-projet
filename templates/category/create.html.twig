@@ -2,7 +2,7 @@
 
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
 
-{% block title %}Categorie au choix{% endblock %}
+{% block title %}Création de Categorie{% endblock %}
 
 {% block body %}
 
@@ -10,8 +10,12 @@
     <p> Créer une category </p>
     {{ form_start(form) }}
     {{ form_row(form.name) }}
-    <button class="btn">{{ button_label|default('Créer') }}</button>
+    <button class="btn">{{ button_label|default('Create') }}</button>
     {{ form_end(form) }}
 
+
+    <a href="{{ path('homepage') }}"><button class="btn btn-secondary">
+            Back to homepage</button></a>
     </div>
+
 {% endblock %}

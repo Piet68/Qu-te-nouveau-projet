@@ -1,1 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Your lucky number{% endblock %}
+
+{% block stylesheets %}{% endblock %}
+
+{% block body %}
+
+
 <h1>Your lucky number is {{ number }}</h1>
+
+    <a href="{{ path('homepage') }}"><button class="btn btn-secondary">
+            Back to homepage</button></a>
+
+{% endblock %}

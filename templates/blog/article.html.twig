@@ -8,4 +8,13 @@
             <p>{{ article.content }}</p>
         <p>La catégorie de cet article est : {{ article.category.name }}</p>
     </div>
+
+    <strong>Tags :</strong>
+    <ul>
+        {% for tag in articles.tags %}
+            <li>{{ tag.name }} </li>
+        {% else %}
+            <li>No tags for this article</li>
+        {% endfor %}
+    </ul>
 {% endblock %}
