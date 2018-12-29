@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Form\Article1Type;
+use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use App\Service\Slugify;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,7 +40,7 @@ class ArticleController extends AbstractController
     public function new(Request $request, Slugify $slugify): Response
     {
         $article = new Article();
-        $form = $this->createForm(Article1Type::class, $article);
+        $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -63,7 +64,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="article_edit", methods="GET|POST")
+     * @Route("/{id}/edit", name="article_edition", methods="GET|POST")
      */
     public function edit(Request $request, Article $article): Response
     {

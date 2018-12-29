@@ -27,7 +27,14 @@
         <h1>All articles from articles table : </h1>
         {% for article in articles %}
             <div>
-                <h2>{{ loop.index }} / {{ article.title }} - Category : {{ article.category.name }}</h2>
+                <div class="row">
+                    <div class="col-10">
+                        <h2>{{ loop.index }} / {{ article.title }} - Category : {{ article.category.name }}</h2>
+                    </div>
+                    <div class="col-2">
+                        <a class="btn btn-info" href="{{ path('article_edit', {'id' : article.id}) }}">éditer</a>
+                    </div>
+                </div>
                 <p>{{ article.content }}</p>
             </div>
         {% endfor %}

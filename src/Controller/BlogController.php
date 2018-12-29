@@ -169,4 +169,23 @@ class BlogController extends AbstractController
 
         //return $this->render('blog/category.html.twig', ['articles' => $articles, 'categorie' => $category]);
     //}
+
+    /**
+     * @Route("/{id}/edit", name="article_edit", methods="GET|POST")
+     */
+    public function edit(Request $request, Article $article, Slugify $slugify): Response
+    {
+        $form = $this->createForm(ArticleType::class, $article);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $article->setSlug($slugify->generate($article->getTitle()));
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('article_edit', ['id' => $article->getId()]);
+        }
+        return $this->render('article/edit.html.twig', [
+            'article' => $article,
+            'form' => $form->createView(),
+        ]);
+    }
 }

@@ -3,11 +3,13 @@
 {% block title %}Edit Article{% endblock %}
 
 {% block body %}
+    <div class="container">
     <h1>Edit Article</h1>
 
     {{ include('article/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('article_index') }}">back to list</a>
+    <a class="btn btn-outline-info my-2" href="{{ path('blog_index') }}">back to list</a>
 
     {{ include('article/_delete_form.html.twig') }}
+    </div>
 {% endblock %}
